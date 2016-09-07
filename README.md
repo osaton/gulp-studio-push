@@ -1,4 +1,4 @@
-# Crasman Studio Push plugin
+# Crasman Studio Push plugin for gulp
 
 ## Installation
 
