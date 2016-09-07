@@ -12,7 +12,7 @@ $ echo '.studio-credentials' >> .gitignore # Add .studio-credentials to .gitigno
 var studioPush = require('gulp-studio-push'),
     studioSettings = {
       studio: 'foo.studio.crasman.fi',
-      proxy: 'http://foo.intra:8080/',
+      proxy: 'http://foo.intra:8080/', // Optional, but with this set, you don't have to worry about setting HTTP_PROXY anymore
       folders: [{
         folderId: '568a7a2aadd4532b0f4f4f5b',
         localFolder: 'dist/js'
