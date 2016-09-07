@@ -24,9 +24,9 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/osaton/gulp-studio-push.git"
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/osaton/gulp-studio-push/issues"
   }
 }
