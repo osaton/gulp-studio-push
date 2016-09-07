@@ -1,0 +1,32 @@
+{
+  "name": "gulp-studio-push",
+  "version": "0.0.1",
+  "description": "Push to Crasman Studio",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "gulp-studio-push",
+    "gulpplugin",
+    "crasman",
+    "stage",
+    "crasman studio api"
+  ],
+  "author": "Petteri",
+  "dependencies": {
+    "gulp-util": "^3.0.7",
+    "studio-helper": "^1.0.0",
+    "through2": "^2.0.1"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": ""
+  }
+}
