@@ -1,12 +1,11 @@
-# Crasman Studio Push plugin for gulp
+# Crasman Studio push plugin for gulp
 
 ## Installation
 
 ```bash
 $ npm install gulp-studio-push --save-dev
+$ echo '.studio-credentials' >> .gitignore # Add .studio-credentials to .gitignore file
 ```
-
-*Important*: Add .studio-credentials to .gitignore file
 
 ## gulpfile example:
 ```javascript
