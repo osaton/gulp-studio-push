@@ -1,5 +1,9 @@
 # Crasman Studio push plugin for gulp
 
+## What is this
+
+Modern version of the legendary push.php. Windows users can ditch Cygwin - no PHP here, only Node.
+
 ## Installation
 
 ```bash
