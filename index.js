@@ -32,17 +32,18 @@ module.exports = function(settings) {
     studio = new StudioHelper(settings);
   }
 
+
   return through.obj(function (file, encoding, callback) {
     let relativePath;
 
     if(file.isNull()) {
 
       // Folder
-      relativePath = fs.realpathSync(file.path).replace(currentDir + '/', '');
+      relativePath = fs.realpathSync(file.path).replace(path.join(currentDir, '/'), '');
     } else {
 
       // File
-      relativePath = path.dirname(fs.realpathSync(file.path)).replace(currentDir + '/', '');
+      relativePath = path.dirname(fs.realpathSync(file.path)).replace(path.join(currentDir, '/'), '');
     }
 
     // If root dir, include all folders
@@ -52,7 +53,7 @@ module.exports = function(settings) {
 
     for(let i=settings.folders.length-1; i>=0; i--) {
       let folder = settings.folders[i],
-          folderPath = folder.localFolder.replace(/^\.\//, '');
+          folderPath = path.normalize(folder.localFolder);
 
       // If path is found in passed folders add it
       if(folderPath.indexOf(relativePath) === 0) {
