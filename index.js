@@ -52,7 +52,7 @@ module.exports = function(settings) {
 
     // If root dir, include all folders
     if(currentDir === fs.realpathSync(file.path)) {
-      filteredFolders = settings.folders.slice(0, settings.folders.length);
+      filteredFolders = folders.slice(0, folders.length);
     }
 
     for(let i=folders.length-1; i>=0; i--) {
