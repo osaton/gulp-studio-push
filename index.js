@@ -13,6 +13,7 @@ let StudioHelper = require('studio-helper'),
 module.exports = function(settings) {
   let pushStarted = false,
       currentDir = process.cwd(),
+      folders = [],
       filteredFolders = [];
 
   if(!studio) {
@@ -32,6 +33,9 @@ module.exports = function(settings) {
     studio = new StudioHelper(settings);
   }
 
+  // Deep copy folders
+  folders = JSON.parse(JSON.stringify(settings.folders));
+
 
   return through.obj(function (file, encoding, callback) {
     let relativePath;
@@ -48,16 +52,16 @@ module.exports = function(settings) {
 
     // If root dir, include all folders
     if(currentDir === fs.realpathSync(file.path)) {
-      filteredFolders = settings.folders.splice(0, settings.folders.length);
+      filteredFolders = settings.folders.slice(0, settings.folders.length);
     }
 
-    for(let i=settings.folders.length-1; i>=0; i--) {
-      let folder = settings.folders[i],
+    for(let i=folders.length-1; i>=0; i--) {
+      let folder = folders[i],
           folderPath = path.normalize(folder.localFolder);
 
       // If path is found in passed folders add it
       if(folderPath.indexOf(relativePath) === 0) {
-        filteredFolders.push(settings.folders.splice(i, 1)[0]);
+        filteredFolders.push(folders.splice(i, 1)[0]);
       }
     }
 
