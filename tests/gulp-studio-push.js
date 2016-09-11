@@ -54,21 +54,6 @@ function fixtures (glob) {
       expect(studioPush.bind(studioPush, {studio: 'foo.bar.com', folders: []})).to.not.throw(Error);
     });
 
-
-    /*
-    it('should notify if no folders are found to upload', function (done) {
-      gulp.src('.')
-          .pipe(studioPush({studio: 'foo.bar.com', folders: []}))
-          .on('end', function () {
-            expect( console.log.calledOnce ).to.be.true;
-            expect( console.log.calledWith('Good morning') ).to.be.true;
-            done();
-          })
-          .on('error', function () {
-            done();
-          })
-    });*/
-
     it('should notify if no folders are found to upload', function (done) {
       gulp.src('tests/fixtures/notfound', { buffer: false })
         .pipe(studioPush(properSettings))
@@ -76,7 +61,7 @@ function fixtures (glob) {
           //done();
         })
         .on('end', function () {
-          //expect( console.log.calledOnce ).to.be.true;
+          expect( console.log.calledOnce ).to.be.true;
           expect( console.log.calledWith('[gulp-studio-push] No folders found to upload') ).to.be.true;
           done();
         })
