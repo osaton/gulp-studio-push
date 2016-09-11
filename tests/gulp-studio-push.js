@@ -39,7 +39,7 @@ function fixtures (glob) {
   describe('### INIT ###', function () {
     it('should not start without settings object', function () {
       expect(studioPush).to.throw(Error, /Settings \(object\) missing/);
-      expect(studioPush.bind(studioPush, 'test.js')).to.throw(Error, /Object expected/);
+      expect(studioPush.bind(studioPush, 'test.js')).to.throw(Error, /Settings: object expected/);
     });
 
     it('should not start without studio property set', function () {

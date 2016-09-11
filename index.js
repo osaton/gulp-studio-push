@@ -23,7 +23,7 @@ module.exports = function(settings) {
     }
 
     if(typeof settings !== 'object') {
-      throw new PluginError(PLUGIN_NAME, 'Object expected');
+      throw new PluginError(PLUGIN_NAME, 'Settings: object expected');
     }
 
     if(!settings.studio) {
