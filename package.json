@@ -28,5 +28,10 @@
   },
   "bugs": {
     "url": "https://github.com/osaton/gulp-studio-push/issues"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-mocha": "^3.0.1"
   }
 }
