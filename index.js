@@ -22,6 +22,10 @@ module.exports = function(settings) {
       throw new PluginError(PLUGIN_NAME, 'Settings (object) missing');
     }
 
+    if(typeof settings !== 'object') {
+      throw new PluginError(PLUGIN_NAME, 'Object expected');
+    }
+
     if(!settings.studio) {
       throw new PluginError(PLUGIN_NAME, "Settings: property 'studio' (string) missing");
     }
