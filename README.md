@@ -11,13 +11,24 @@ $ npm install gulp-studio-push --save-dev
 $ echo '.studio-credentials' >> .gitignore # Add .studio-credentials to .gitignore file
 ```
 
-## gulpfile examples:
+## Ignoring unwanted files
+[Ignore patterns](https://git-scm.com/docs/gitignore) can be added to `.studio-ignore` file.
+
+#### .studio-ignore example:
+```gitignore
+.DS_Store
+dist/img/*.gif
+!dist/img/janne-loop.gif
+```
+
+## gulpfile example:
 ```javascript
 var gulp = require('gulp'),
     studioPush = require('gulp-studio-push'),
     studioSettings = {
       studio: 'foo.studio.crasman.fi',
       proxy: 'http://foo.intra:8080/', // Optional, but with this set, you don't have to worry about setting HTTP_PROXY anymore
+      ignoreFile: '.studio-ignore-2', // Only needed if you don't want to use the default ignore file (.studio-ignore)
       folders: [{
         folderId: '568a7a2aadd4532b0f4f4f5b',
         localFolder: 'dist/js'
