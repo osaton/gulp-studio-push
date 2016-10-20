@@ -154,4 +154,4 @@ Studio folder structure after push:
 └───some-other-branch
 └───master
 ```
-You can then use ['studio-folder://5807aedb2b089f6b6f44cfaf/.getFolders()](https://wiki.crasman.fi/confluence/display/stageguide/getFolders) in Stage to get the child folders (branches) and [create a branch selector](examples/branches/index.md).
+You can then use ['studio-folder://5807aedb2b089f6b6f44cfaf/.getFolders()](https://wiki.crasman.fi/confluence/display/stageguide/getFolders) in Stage to get the child folders (branches) and [create a branch selector](examples/branches/).
