@@ -75,7 +75,6 @@ Install plugins needed for this example:
 npm install gulpjs/gulp#4.0 gulp-file yargs gulp-studio-push --save-dev
 ```
 ```javascript
-// Install needed plugins:
 var gulp = require('gulp');
 var file = require('gulp-file');
 var argv = require('yargs').argv;
