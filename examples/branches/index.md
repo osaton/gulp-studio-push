@@ -2,7 +2,7 @@
 ## Branch selector in Stage
 
 You should be using the 'Git branch uploading' method:
-[gulpfile.js](https://www.npmjs.com/package/gulp-studio-push#git-branch-uploading-121)
+[gulpfile.js](../../#git-branch-uploading-121)
 
 [Example page template](page.html)
 
