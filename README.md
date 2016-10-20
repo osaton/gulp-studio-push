@@ -106,32 +106,6 @@ gulp.task('clean', function () {
   return del([path.dist.root]);
 });
 
-// Create JSON of all the remote git branches
-// You can use this file on the client side to create a branch selector
-gulp.task('create-branch-json', function (callback) {
-  var exec = require('child_process').exec;
-
-  exec('git branch -r', function (err, stdout, stderr) {
-    var branches = stdout.split('\n');
-    var cleanedBranches = [];
-
-    // Assumes origin is remote
-    for(var i=branches.length-1; i>=0; i--) {
-      var branchMatch = branches[i].trim().match(/^origin\/([a-z0-9\-_]*)/i);
-      if(branchMatch && branchMatch.length >= 1 && branchMatch[1] !== 'HEAD') {
-        cleanedBranches.push(branchMatch[1]);
-      }
-    }
-
-    // Insert branches.json to the root of dist folder
-    file('branches.json', JSON.stringify(cleanedBranches), { src: true })
-    .pipe(gulp.dest(path.dist.root))
-    .on('end', function () {
-      callback();
-    });
-  });
-});
-
 // Push everything found in dist folder to Studio
 gulp.task('push', function () {
   var studioPush = require('gulp-studio-push');
@@ -162,7 +136,7 @@ gulp.task('css', function () {
 });
 
 // Build everything
-gulp.task('build', gulp.series('clean', 'create-branch-json', gulp.parallel('js', 'css'), 'push'));
+gulp.task('build', gulp.series('clean', gulp.parallel('js', 'css'), 'push'));
 
 // Default
 gulp.task('default', gulp.series('build'));
@@ -180,3 +154,4 @@ Studio folder structure after push:
 └───some-other-branch
 └───master
 ```
+You can then use ['studio-folder://5807aedb2b089f6b6f44cfaf/.getFolders()](https://wiki.crasman.fi/confluence/display/stageguide/getFolders) in Stage to get the child folders (branches) and create a branch selector.
