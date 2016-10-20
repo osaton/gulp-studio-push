@@ -21,7 +21,9 @@ dist/img/*.gif
 !dist/img/janne-loop.gif
 ```
 
-## gulpfile example:
+## Examples
+
+### Basic multiple folders setup
 ```javascript
 var gulp = require('gulp'),
     studioPush = require('gulp-studio-push'),
@@ -31,7 +33,8 @@ var gulp = require('gulp'),
       ignoreFile: '.studio-ignore-2', // Only needed if you don't want to use the default ignore file (.studio-ignore)
       folders: [{
         folderId: '568a7a2aadd4532b0f4f4f5b',
-        localFolder: 'dist/js'
+        localFolder: 'dist/js',
+        includeSubFolders: true // Create and upload child folders too (^1.2.1), default false
       }, {
         folderId: '568a7a27add453aa1a4f4f58',
         localFolder: 'dist/css'
@@ -63,4 +66,118 @@ gulp.task('push-dist', function () {
 gulp.task('push-foo', function () {
   return gulp.src(['dist/js', 'dist/css']).pipe(studioPush(studioSettings));
 });
+```
+
+### Git branch uploading (^1.2.1)
+
+Install plugins needed for this example:
+```bash
+npm install gulpjs/gulp#4.0 gulp-file yargs gulp-studio-push --save-dev
+```
+```javascript
+// Install needed plugins:
+var gulp = require('gulp');
+var file = require('gulp-file');
+var argv = require('yargs').argv;
+var execSync = require('child_process').execSync;
+
+// Get current branch
+var branch = execSync('git symbolic-ref -q --short HEAD').toString('utf-8').trim();
+
+// Assumes that 'master' is the production branch
+// If this is production branch, require --production flag
+if(branch === 'master' && !argv.production) {
+  console.log('Master (production!) branch needs to be built with \`gulp --production\`');
+  console.log('For development purposes create another branch.');
+  return;
+}
+
+var path = {
+  dist: {
+    root  : 'dist/',
+    css   : 'dist/' + branch + '/css/',
+    js    : 'dist/' + branch + '/js/',
+  }
+};
+
+// It's important to clean the dist folder when we start gulp, so that
+// we don't accidentally upload other branches too
+gulp.task('clean', function () {
+  var del = require('del');
+  return del([path.dist.root]);
+});
+
+// Create JSON of all the remote git branches
+// You can use this file on the client side to create a branch selector
+gulp.task('create-branch-json', function (callback) {
+  var exec = require('child_process').exec;
+
+  exec('git branch -r', function (err, stdout, stderr) {
+    var branches = stdout.split('\n');
+    var cleanedBranches = [];
+
+    // Assumes origin is remote
+    for(var i=branches.length-1; i>=0; i--) {
+      var branchMatch = branches[i].trim().match(/^origin\/([a-z0-9\-_]*)/i);
+      if(branchMatch && branchMatch.length >= 1 && branchMatch[1] !== 'HEAD') {
+        cleanedBranches.push(branchMatch[1]);
+      }
+    }
+
+    // Insert branches.json to the root of dist folder
+    file('branches.json', JSON.stringify(cleanedBranches), { src: true })
+    .pipe(gulp.dest(path.dist.root))
+    .on('end', function () {
+      callback();
+    });
+  });
+});
+
+// Push everything found in dist folder to Studio
+gulp.task('push', function () {
+  var studioPush = require('gulp-studio-push');
+  var studioSettings = {
+    studio: 'foo.studio.crasman.fi',
+    proxy: 'http://foo.intra:8080/',
+    folders : [{
+      folderId: '5807aedb2b089f6b6f44cfaf',
+      localFolder: 'dist',
+      includeSubFolders: true
+    }]
+  };
+  return gulp.src('dist').pipe(studioPush(studioSettings));
+});
+
+// Create some dummy files for demonstration purposes
+// Replace with a task of your own
+gulp.task('js', function () {
+  return file('file.js', 'test', { src: true })
+  .pipe(gulp.dest(path.dist.js));
+});
+
+// Create some dummy files for demonstration purposes
+// Replace with a task of your own
+gulp.task('css', function () {
+  return file('file.css', 'test', { src: true })
+  .pipe(gulp.dest(path.dist.css));
+});
+
+// Build everything
+gulp.task('build', gulp.series('clean', 'create-branch-json', gulp.parallel('js', 'css'), 'push'));
+
+// Default
+gulp.task('default', gulp.series('build'));
+
+```
+Studio folder structure after push:
+```
+{studioFolder}
+│   branches.json
+└───{branch}
+|   └───css
+|    │   file.css
+|    └───js
+|        file.js
+└───some-other-branch
+└───master
 ```
