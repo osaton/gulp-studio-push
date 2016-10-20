@@ -1,0 +1,24 @@
+<%
+'use strict';
+
+const branchesData = Site.getBranchesData('studio-folder://5807aedb2b089f6b6f44cfaf/', Cookie, Post);
+const resourcePath = Studio.stagePub + 'branch/' + branchesData.currentBranch;
+
+%>
+<html>
+<head>
+  <link href="<%= resourcePath %>/css/file.css" rel="stylesheet" />
+</head>
+<body>
+  <form id="branch-selector" method="post" action="">
+    <label>Change branch
+      <select name="<%= branchesData.postName %>" onchange="this.form.submit()">
+        <% for(let i=0, l=branchesData.branches.length; i<l; i++) { %>
+          <option value="<%= branchesData.branches[i] %>" <% if(branchesData.currentBranch === branchesData.branches[i]) { %>selected<% } %>><%= branchesData.branches[i] %></option>
+        <% } %>
+      </select>
+    </label>
+  </form>
+  <script src="<%= resourcePath %>/js/file.js"></script>
+</body>
+</html><%+ breachPadding %>
