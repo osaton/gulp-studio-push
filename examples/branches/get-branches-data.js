@@ -26,6 +26,7 @@ if(postedBranch) {
 // But only in admin mode
 res.currentBranch = Stage.admin ? selectedBranch : 'master';
 
+// Get branches
 res.branches = $.cache('branches--' + folderId, function () {
   let folders = folderRef.getFolders();
   let branches = [];
@@ -36,5 +37,13 @@ res.branches = $.cache('branches--' + folderId, function () {
 
   return branches;
 }, Stage.admin ? 10 : 300);
+
+// If selected branch is no longer found, use master
+if(res.branches.indexOf(res.currentBranch) === -1) {
+  res.currentBranch = 'master';
+
+  // And delete cookie if one exists
+  Stage.deleteCookie(res.postName);
+}
 
 return res;
