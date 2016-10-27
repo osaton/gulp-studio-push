@@ -8,8 +8,8 @@ let res = {
   postName: 'branch--' + folderId,
   branches: [],
   currentBranch: null,
-  getDevPages: function () {
-    let devPages = $.cache('branches-pages--' + folderId, function () {
+  getDevBranchPages: function () {
+    let devPages = $.cache('branches-dev-pages--' + folderId, function () {
       let pages = Stage.pages.get({'navi_id': 'primary'}, ['name', 'id', 'meta_data']);
       let devPages = [];
       
