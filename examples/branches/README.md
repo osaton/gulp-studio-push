@@ -1,4 +1,4 @@
-# Git branch uploading (^1.2.1)
+# Git branch uploading (^1.3.0)
 
 This method allows multiple developers as everyone is developing on separate branches, and only pushes master when things are working.
 
@@ -49,7 +49,18 @@ gulp.task('push', function () {
     folders : [{
       folderId: '5807aedb2b089f6b6f44cfaf',
       localFolder: 'dist',
-      includeSubFolders: true
+      includeSubFolders: true,
+      createdFolderSettings: { // Cache settings for created folders
+        'dist/master': {
+          fileCacheMaxAge: 604800 // Week for master files
+        },
+        'dist/release-.*?': {
+          fileCacheMaxAge: 604800 // Week for release-0.1, release-0.2 etc.
+        },
+        'dist/.*?': {
+          fileCacheMaxAge: 1 // 1 second for everything else (dev branches)
+        }
+      }
     }]
   };
   return gulp.src('dist').pipe(studioPush(studioSettings));

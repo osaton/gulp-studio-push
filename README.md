@@ -18,10 +18,10 @@ $ echo '.studio-credentials' >> .gitignore # Add .studio-credentials to .gitigno
 ```gitignore
 .DS_Store
 dist/img/*.gif
-!dist/img/janne-loop.gif
+!dist/img/allowed.gif
 ```
 
 ## Examples
 
-- Recommended method: [Git branch uploading (^1.2.1)](examples/branches/)
+- Recommended method: [Git branch uploading (^1.3.0)](examples/branches/)
 - [Basic multiple folders setup](examples/basic/)
