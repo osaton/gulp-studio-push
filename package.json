@@ -1,6 +1,6 @@
 {
   "name": "gulp-studio-push",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "description": "Push to Crasman Studio",
   "main": "index.js",
   "scripts": {
