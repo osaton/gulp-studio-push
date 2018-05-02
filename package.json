@@ -16,7 +16,7 @@
   "author": "Petteri",
   "dependencies": {
     "gulp-util": "^3.0.7",
-    "studio-helper": "^1.9.0",
+    "studio-helper": "^1.10.0",
     "through2": "^2.0.1"
   },
   "directories": {
