@@ -48,7 +48,7 @@ gulp.task('push', function () {
           fileCacheMaxAge: 1 // 1 second for everything else (dev branches)
         }
       },
-      createdFileSettings: { // (version ^1.5.0)
+      createdFileHeaders: { // (version ^1.5.0)
         // For master and release-* branch Service Workers (sw.js or service-worker.js)
         'dist/(master|release-.*)/(sw.js|service-worker.js)': { // RegExp match
           'Service-Worker-Allowed': '/', // Allow from root of domain
