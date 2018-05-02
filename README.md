@@ -21,15 +21,18 @@ dist/img/*.gif
 !dist/img/allowed.gif
 ```
 
-## Example
+## Examples
 
-```js
-// Push everything found in dist folder to Studio
+
+### Push with different cache times for dev / production folders and Service Workers
+```javascript
 gulp.task('push', function () {
-  var studioPush = require('gulp-studio-push');
-  var studioSettings = {
+  const studioPush = require('gulp-studio-push');
+  const studioSettings = {
     studio: 'foo.studio.crasman.fi',
     proxy: 'http://foo.intra:8080/',
+    // Only needed if you don't want to use the default ignore file (.studio-ignore)
+    //ignoreFile: '.studio-ignore-2', 
     folders : [{
       folderId: '5807aedb2b089f6b6f44cfaf',
       localFolder: 'dist',
@@ -45,7 +48,7 @@ gulp.task('push', function () {
           fileCacheMaxAge: 1 // 1 second for everything else (dev branches)
         }
       },
-      createdFileSettings: {
+      createdFileSettings: { // (version ^1.5.0)
         // For master and release-* branch Service Workers (sw.js or service-worker.js)
         'dist/(master|release-.*)/(sw.js|service-worker.js)': { // RegExp match
           'Service-Worker-Allowed': '/', // Allow from root of domain
@@ -55,10 +58,55 @@ gulp.task('push', function () {
         'dist/.*/(sw.js|service-worker.js)': { // RegExp match
           'Service-Worker-Allowed': '/', // Allow from root of domain
           'Cache-Control': 'private, must-revalidate, no-cache, no-store, max-age=0, s-maxage=0' // no cache for development branch Service Workers
-        },
+        }
       }
     }]
   };
   return gulp.src('dist').pipe(studioPush(studioSettings));
+});
+```
+
+### Different gulp tasks for pushing specific folders
+
+```javascript
+const gulp = require('gulp');
+const studioPush = require('gulp-studio-push');
+const studioSettings = {
+  studio: 'foo.studio.crasman.fi',
+  proxy: 'http://foo.intra:8080/',
+  folders: [{
+    folderId: '568a7a2aadd4532b0f4f4f5b',
+    localFolder: 'dist/js',
+    includeSubFolders: true // Create and upload child folders too
+  }, {
+    folderId: '568a7a27add453aa1a4f4f58',
+    localFolder: 'dist/css'
+  }, {
+    folderId: '568a7a27add453aa1a4f4f58',
+    localFolder: 'dist/img'
+  }, {
+    folderId: '568a7a27add453aa1a4f4f58',
+    localFolder: 'other/folder'
+  }]
+};
+
+// Upload all folders
+gulp.task('push', function () {
+  return gulp.src('.').pipe(studioPush(studioSettings));
+});
+
+// Upload dist/img folder
+gulp.task('push-images', function () {
+  return gulp.src('dist/img').pipe(studioPush(studioSettings));
+});
+
+// Upload all folders starting with 'dist' (dist/js, dist/css, dist/img)
+gulp.task('push-dist', function () {
+  return gulp.src('dist').pipe(studioPush(studioSettings));
+});
+
+// Upload css and js
+gulp.task('push-foo', function () {
+  return gulp.src(['dist/js', 'dist/css']).pipe(studioPush(studioSettings));
 });
 ```
