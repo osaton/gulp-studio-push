@@ -4,7 +4,7 @@
   "description": "Push to Crasman Studio",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha tests --bail"
   },
   "keywords": [
     "gulp-studio-push",
