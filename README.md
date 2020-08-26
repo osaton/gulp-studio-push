@@ -31,6 +31,7 @@ gulp.task('push', function () {
   const studioSettings = {
     studio: 'foo.studio.crasman.fi',
     proxy: 'http://foo.intra:8080/',
+    concurrentUploads: 4 // Default 5, max 5 
     // Only needed if you don't want to use the default ignore file (.studio-ignore)
     //ignoreFile: '.studio-ignore-2', 
     folders : [{

@@ -34,6 +34,10 @@ module.exports = function(settings) {
       throw new PluginError(PLUGIN_NAME, "Settings: property 'folders' (Array<object>) missing");
     }
 
+    if(!settings.concurrentUploads) {
+      settings.concurrentUploads = 5;
+    }
+
     studio = new StudioHelper(settings);
   }
 
